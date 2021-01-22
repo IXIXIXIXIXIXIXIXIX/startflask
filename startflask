@@ -1,0 +1,38 @@
+#!/bin/bash
+# Sets up the folder structure and some of the required boilerplate for a basic Flask app
+
+APPNAME=$1
+mkdir app
+mkdir app/controllers app/models app/static app/templates
+
+touch "$APPNAME.py"
+echo "from app import app" >> "$APPNAME.py"
+
+touch ".flaskenv"
+echo "FLASK_APP=$APPNAME.py" >> ".flaskenv"
+echo "FLASK_ENV=development" >> ".flaskenv"
+
+touch "app/__init__.py"
+echo "from flask import Flask" >> "app/__init__.py"
+echo "app = Flask(__name__)" >> "app/__init__.py"
+echo "from app.controllers import controller" >> "app/__init__.py"
+
+touch "app/models/__init__.py"
+
+touch "app/controllers/__init__.py"
+
+touch "app/controllers/controller.py"
+echo "from app import app" >> "app/controllers/controller.py"
+echo "from flask import render_template" >> "app/controllers/controller.py"
+echo "" >> "app/controllers/controller.py"
+echo "@app.route('/')" >> "app/controllers/controller.py"
+echo "def index():" >> "app/controllers/controller.py"
+echo "	return render_template('index.html')" >> "app/controllers/controller.py"
+echo "	# Change this route, obviously" >> "app/controllers/controller.py"
+
+touch "app/models/__init__.py"
+touch "app/static/style.css"
+touch "app/templates/base.html"
+
+touch "app/templates/index.html"
+echo "Hello, World!" >> "app/templates/index.html"
