@@ -32,7 +32,29 @@ echo "	# Change this route, obviously" >> "app/controllers/controller.py"
 
 touch "app/models/__init__.py"
 touch "app/static/style.css"
+
 touch "app/templates/base.html"
 
+
+echo "<!DOCTYPE html>" >> "app/templates/base.html"
+echo "<html lang=\"en\">" >> "app/templates/base.html"
+echo "<head>" >> "app/templates/base.html"
+echo     "<meta charset=\"UTF-8\">" >> "app/templates/base.html"
+echo     "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">" >> "app/templates/base.html"
+echo     "<link rel=\"stylesheet\" href=\"{{ url_for('static', filename='style.css') }}\">" >> "app/templates/base.html"
+echo     "<title>Document</title>" >> "app/templates/base.html"
+echo "</head>" >> "app/templates/base.html"
+echo "" >> "app/templates/base.html"
+echo "<body>" >> "app/templates/base.html"
+echo     "{% block content %}" >> "app/templates/base.html"
+echo     "{% endblock %}" >> "app/templates/base.html"
+echo "</body>" >> "app/templates/base.html"
+echo "</html>" >> "app/templates/base.html"
+
 touch "app/templates/index.html"
+echo "{% extends 'base.html' %}" >> "app/templates/index.html"
+echo "" >> "app/templates/index.html"
+echo "{% block content %}" >> "app/templates/index.html"
 echo "Hello, World!" >> "app/templates/index.html"
+echo "{% endblock %}" >> "app/templates/index.html"
+
