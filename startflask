@@ -2,8 +2,10 @@
 # Sets up the folder structure and some of the required boilerplate for a basic Flask app
 
 APPNAME=$1
+REP="_repository"
+REPPATH=app/$APPNAME$REP
 mkdir app
-mkdir app/controllers app/models app/static app/templates
+mkdir app/controllers app/models app/static app/templates app/db $REPPATH
 
 touch "$APPNAME.py"
 echo "from app import app" >> "$APPNAME.py"
@@ -58,3 +60,28 @@ echo "{% block content %}" >> "app/templates/index.html"
 echo "Hello, World!" >> "app/templates/index.html"
 echo "{% endblock %}" >> "app/templates/index.html"
 
+touch app/db/$APPNAME.sql
+touch app/db/__init__.py
+touch app/db/run_sql.py
+echo "import psycopg2" >> app/db/run_sql.py
+echo "import psycopg2.extras as ext" >> app/db/run_sql.py
+echo "" >> app/db/run_sql.py
+echo "def run_sql(sql, values = None):" >> app/db/run_sql.py
+echo "    conn = None" >> app/db/run_sql.py
+echo "    results = []" >> app/db/run_sql.py
+echo "" >> app/db/run_sql.py
+echo "    try:" >> app/db/run_sql.py
+echo "        conn=psycopg2.connect(\"dbname='$APPNAME'\")" >> app/db/run_sql.py
+echo "        cur = conn.cursor(cursor_factory=ext.DictCursor)" >> app/db/run_sql.py
+echo "        cur.execute(sql, values)" >> app/db/run_sql.py
+echo "        conn.commit()" >> app/db/run_sql.py
+echo "        results = cur.fetchall()" >> app/db/run_sql.py
+echo "        cur.close()" >> app/db/run_sql.py
+echo "    except (Exception, psycopg2.DatabaseError) as error:" >> app/db/run_sql.py
+echo "        print(error)" >> app/db/run_sql.py
+echo "    finally:" >> app/db/run_sql.py
+echo "        if conn is not None:" >> app/db/run_sql.py
+echo "            conn.close()" >> app/db/run_sql.py
+echo "    return results" >> app/db/run_sql.py
+
+createdb $APPNAME
