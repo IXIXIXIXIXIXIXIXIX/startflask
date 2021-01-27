@@ -5,7 +5,7 @@ APPNAME=$1
 REP="_repository"
 REPPATH=app/$APPNAME$REP
 mkdir app
-mkdir app/controllers app/models app/static app/templates app/db $REPPATH
+mkdir app/controllers app/models app/static app/templates app/db app/repositories 
 
 touch "$APPNAME.py"
 echo "from app import app" >> "$APPNAME.py"
